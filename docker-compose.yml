@@ -4,8 +4,6 @@ services:
   
   traccar:
     image: traccar/traccar 
-    hostname: traccar 
-    container_name: traccar
     restart: always
     env_file: .env
     expose:

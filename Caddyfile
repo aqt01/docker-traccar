@@ -1,4 +1,8 @@
+
 http://{$DOMAIN_NAME} {
+  gzip
+
+  log stdout 
   proxy / traccar:8082 {
       transparent
 	  header_upstream X-Frame-Options http://{$DOMAIN_NAME}/ 

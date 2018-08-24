@@ -1,5 +1,7 @@
 # traccar server
 
+# https://www.traccar.org/forums/topic/traccar-xml-setup/
+
 Start https://www.traccar.org server with a MySQL backend. 
 
 New tracker GPS devices can connect on port 5000-5150 and see https://www.traccar.org/devices which port the device should use and see https://www.traccar.org/protocols for the supported protocols traccar supports. 

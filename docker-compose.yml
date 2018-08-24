@@ -1,27 +1,56 @@
 version: '2'
+
 services: 
+  db:
+    image: postgres 
+    container_name: db 
+    restart: always
+    env_file: .env
+    expose:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${TRAC_USER} 
+      POSTGRES_DB: ${TRAC_DB} 
+      POSTGRES_PASSWORD: ${TRAC_PASS} 
+    volumes:
+      - ./.data:/var/lib/mysql/
 
- mysql:
-  image: mysql
-  restart: always
-  hostname: mysql
-  environment:
-   - MYSQL_ROOT_PASSWORD=my-secret-pw
-  volumes:
-   - mysql:/var/lib/mysql/
-   - ./conf/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql
+  traccar:
+    depends_on:
+      - db 
+    image: traccar/traccar:4.0 
+    hostname: traccar 
+    container_name: traccar
+    restart: always
+    env_file: .env
+    ports:
+      - "5000-5150:5000-5150"
+      #- "5000-5150/udp:5000-5150"
+      - "8082:8082"
+    volumes:
+      - ./.traccar:/opt/traccar/data/database
+      - ./conf/traccar.xml:/opt/traccar/conf/traccar.xml
+      - /var/docker/traccar/logs:/opt/traccar/logs:rw 
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro 
 
- traccar:
-  image: marcelmaatkamp/traccar-server
-  hostname: traccar
-  restart: always
-  ports:
-   - "5000-5150:5000-5150"
-   - "8082:8082"
-  volumes:
-   - traccar-db:/opt/traccar/data/database
-   - ./conf/traccar.xml:/opt/traccar/conf/traccar.xml
+  server:
+    image: abiosoft/caddy 
+    depends_on:
+      - traccar
+      - db 
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+    environment:
+      DOMAIN_NAME: localhost 
+
 
 volumes:
- traccar-db:
- mysql:
+  postgres_data: {}
+  traccar: {}
+

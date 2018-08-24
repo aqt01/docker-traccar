@@ -1,0 +1,7 @@
+http://{$DOMAIN_NAME} {
+  proxy / traccar:8082 {
+      transparent
+	  header_upstream X-Frame-Options http://{$DOMAIN_NAME}/ 
+  }
+
+}

@@ -13,6 +13,8 @@ services:
     volumes:
       - ./.traccar:/opt/traccar/data/database
       - ./conf/traccar.xml:/opt/traccar/conf/traccar.xml
+      - ./conf/release.html:/opt/traccar/web/release.html
+      - ./conf/index.html:/opt/traccar/web/simple/index.html
       - /var/docker/traccar/logs:/opt/traccar/logs:rw 
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro 

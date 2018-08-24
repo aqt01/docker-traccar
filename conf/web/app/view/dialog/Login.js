@@ -41,7 +41,7 @@ Ext.define('Traccar.view.dialog.Login', {
 
         items: [{
             xtype: 'image',
-            src: 'logo.png',
+            src: 'logo.svg',
             alt: Strings.loginLogo,
             width: 240,
             height: 168,

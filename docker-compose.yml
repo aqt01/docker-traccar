@@ -3,7 +3,9 @@ version: '2'
 services: 
   
   traccar:
-    image: traccar/traccar 
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     env_file: .env
     expose:
@@ -13,8 +15,6 @@ services:
     volumes:
       - ./.traccar:/opt/traccar/data/database
       - ./conf/traccar.xml:/opt/traccar/conf/traccar.xml
-      - ./conf/release.html:/opt/traccar/web/release.html
-      - ./conf/index.html:/opt/traccar/web/simple/index.html
       - /var/docker/traccar/logs:/opt/traccar/logs:rw 
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro 
